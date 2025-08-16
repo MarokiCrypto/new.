@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b62ff">
+<title>Maroki.P1</title>
+<style>
+  :root{--b:#0b62ff;--i:#0f172a;--m:#64748b;--l:#e7edf4;--c:#ffffff;--ok:#16a34a;--er:#dc2626}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:Inter,system-ui,-apple-system,Segoe UI,Tahoma,Arial,sans-serif;background:#f6f8fb;color:var(--i)}
+  .wrap{max-width:1024px;margin:0 auto;padding:18px}
+  .hdr{display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:16px;padding:14px 16px;box-shadow:0 8px 26px rgba(15,23,42,.08);position:sticky;top:0;z-index:50}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#0b62ff,#7aa9ff)}
+  .ttl{font-weight:800;letter-spacing:.3px}
+  .quick{display:inline-flex;align-items:center;gap:8px;background:#0b62ff;color:#fff;border:none;border-radius:999px;padding:10px 16px;font-weight:600}
+  .hero{margin-top:14px;background:linear-gradient(180deg,#ffffff, #f2f6ff);border-radius:18px;padding:18px;box-shadow:0 12px 32px rgba(2,6,23,.06)}
+  .grid{display:grid;grid-template-columns:1fr;gap:14px}
+  .row{display:flex;flex-direction:column;gap:8px}
+  .lb{font-weight:600;font-size:14px}
+  .in{appearance:none;width:100%;border:1px solid var(--l);background:#fff;border-radius:12px;padding:14px 12px;font-size:15px;color:#0f172a;outline:none;transition:.2s}
+  .in:focus{border-color:#0b62ff;box-shadow:0 0 0 4px rgba(11,98,255,.08)}
+  .sel{padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6' stroke='%23627489' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:12px center}
+  .tw{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .chkline{display:flex;align-items:center;gap:10px}
+  .btn{width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;border:none;border-radius:14px;padding:14px 18px;font-weight:700;font-size:16px;cursor:pointer}
+  .btnp{background:#0b62ff;color:#fff}
+  .btnp:disabled{opacity:.45;cursor:not-allowed}
+  .note{display:flex;align-items:center;gap:8px;padding:12px;border-radius:12px;font-size:14px;margin-top:10px}
+  .ok{background:#ecfdf3;color:#065f46;border:1px solid #bbf7d0}
+  .er{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+  .foot{margin-top:18px;text-align:center;color:#64748b;font-size:12px}
+  .bar{height:6px;background:#e9eef7;border-radius:999px;overflow:hidden}
+  .bar>i{display:block;height:100%;width:0;background:#0b62ff}
+  .sec{margin-top:16px;background:#fff;border-radius:16px;padding:16px;box-shadow:0 8px 24px rgba(3,7,18,.06)}
+  .list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .chip{border:1px solid var(--l);border-radius:12px;padding:10px 12px;font-size:14px}
+  @media(min-width:720px){.grid{grid-template-columns:1fr 1fr}.row.span2{grid-column:1/3}.list{grid-template-columns:repeat(4,1fr)}}
+  @media(prefers-color-scheme:dark){
+    body{background:#0b1220;color:#e8eef8}
+    .hdr,.hero,.sec{background:#0d1425}
+    .ttl{color:#eaf1ff}
+    .in{background:#0a1322;border-color:#1e293b;color:#eaf1ff}
+    .lb{color:#eaf1ff}
+    .ok{background:#062e20;border-color:#115e42;color:#b8f3d3}
+    .er{background:#2a1212;border-color:#5a1b1b;color:#fecaca}
+    .quick,.btnp{background:#2a66ff}
+    .bar{background:#0c1730}
+    .bar>i{background:#2a66ff}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hdr">
+    <div class="brand">
+      <div class="logo"></div>
+      <div class="ttl">Maroki.P1</div>
+    </div>
+    <button class="quick" id="demo" type="button">تعبئة تلقائية</button>
+  </header>
+
+  <section class="hero" id="app">
+    <div class="bar"><i id="prog"></i></div>
+    <div class="grid" style="margin-top:12px">
+      <div class="row">
+        <div class="lb">الاسم الكامل</div>
+        <input class="in" id="nm" autocomplete="name" placeholder="اكتب اسمك" required>
+      </div>
+      <div class="row">
+        <div class="lb">رقم الحساب / ID المنصة (اختياري)</div>
+        <input class="in" id="uid" inputmode="numeric" pattern="[0-9]{4,15}" placeholder="مثال: 1353044397">
+      </div>
+      <div class="row">
+        <div class="lb">نوع الخدمة</div>
+        <select class="in sel" id="srv" required>
+          <option value="" selected disabled>اختر الخدمة</option>
+          <option>شحن رصيد</option>
+          <option>سحب أرباح</option>
+          <option>تحويل بنكي</option>
+          <option>محافظ رقمية</option>
+          <option>دفع فاتورة</option>
+        </select>
+      </div>
+      <div class="row">
+        <div class="lb">الوسيلة / البنك</div>
+        <input class="in" id="pay" list="providers" placeholder="اختر أو اكتب اسم البنك أو الوسيلة" required>
+        <datalist id="providers">
+          <option>Attijariwafa bank</option>
+          <option>Banque Populaire</option>
+          <option>Bank of Africa (BMCE)</option>
+          <option>CIH Bank</option>
+          <option>Crédit du Maroc (CDM)</option>
+          <option>Société Générale Maroc</option>
+          <option>Crédit Agricole du Maroc</option>
+          <option>CFG Bank</option>
+          <option>Al Barid Bank</option>
+          <option>Umnia Bank</option>
+          <option>Bank Assafa</option>
+          <option>BTI Bank</option>
+          <option>QNB Maroc</option>
+          <option>Arab Bank Maroc</option>
+          <option>WafaCash</option>
+          <option>Cash Plus</option>
+          <option>Barid Cash</option>
+          <option>Western Union</option>
+          <option>MoneyGram</option>
+          <option>Inwi Money</option>
+          <option>Orange Money Maroc</option>
+          <option>MT Cash</option>
+          <option>PayPal</option>
+          <option>Skrill</option>
+          <option>Neteller</option>
+          <option>Wise</option>
+          <option>Payoneer</option>
+          <option>MoneyGO</option>
+          <option>Perfect Money</option>
+          <option>WebMoney</option>
+          <option>Binance Pay</option>
+          <option>USDT TRC20</option>
+          <option>USDT ERC20</option>
+          <option>TRX</option>
+          <option>BTC</option>
+          <option>ETH</option>
+        </datalist>
+      </div>
+      <div class="row">
+        <div class="lb">المبلغ</div>
+        <input class="in" type="number" id="amt" min="1" step="0.01" placeholder="أدخل المبلغ" required>
+      </div>
+      <div class="row">
+        <div class="lb">العملة</div>
+        <select class="in sel" id="cur" required>
+          <option>MAD</option><option>USD</option><option>EUR</option><option>GBP</option><option>AED</option><option>SAR</option><option>TRY</option>
+        </select>
+      </div>
+      <div class="row span2">
+        <div class="lb">ملاحظات</div>
+        <textarea class="in" id="nt" rows="3" placeholder="معلومة إضافية (اختياري)"></textarea>
+      </div>
+      <div class="row span2">
+        <div class="chkline">
+          <input type="checkbox" id="auto" checked>
+          <label for="auto" class="lb" style="font-weight:500">إرسال تلقائي إلى واتساب فور اكتمال الحقول</label>
+        </div>
+      </div>
+      <div class="row span2">
+        <button class="btn btnp" id="send" type="button" disabled>إرسال يدوي عبر واتساب</button>
+        <div class="note ok" id="ok" style="display:none">جاهز للإرسال إلى واتساب.</div>
+        <div class="note er" id="er" style="display:none">أكمل الحقول المطلوبة.</div>
+      </div>
+    </div>
+    <div class="foot">© Maroki.P1</div>
+  </section>
+
+  <section class="sec">
+    <div class="lb" style="margin-bottom:10px">وسائل مدعومة</div>
+    <div class="list" id="chips"></div>
+  </section>
+</div>
+
+<script>
+  (function(){
+    const $=e=>document.querySelector(e);
+    const F={nm:$('#nm'),uid:$('#uid'),srv:$('#srv'),pay:$('#pay'),amt:$('#amt'),cur:$('#cur'),nt:$('#nt'),auto:$('#auto')};
+    const BTN=$('#send'),OK=$('#ok'),ER=$('#er'),DM=$('#demo'),PB=$('#prog'),CH=$('#chips');
+    const WN=atob('MjEyNzEzMDQxOTIx');
+    let sent=false;
+
+    const SUP=['Attijariwafa bank','Banque Populaire','Bank of Africa (BMCE)','CIH Bank','Crédit du Maroc (CDM)','Société Générale Maroc','Crédit Agricole du Maroc','CFG Bank','Al Barid Bank','Umnia Bank','Bank Assafa','BTI Bank','QNB Maroc','Arab Bank Maroc','WafaCash','Cash Plus','Barid Cash','Western Union','MoneyGram','Inwi Money','Orange Money Maroc','MT Cash','PayPal','Skrill','Neteller','Wise','Payoneer','MoneyGO','Perfect Money','WebMoney','Binance Pay','USDT TRC20','USDT ERC20','TRX','BTC','ETH'];
+    CH.innerHTML=SUP.map(x=>`<div class="chip">${x}</div>`).join('');
+
+    function fmt(n){try{return new Intl.NumberFormat('ar-MA',{maximumFractionDigits:2}).format(Number(n))}catch(_){return n}}
+    function ts(){try{return new Intl.DateTimeFormat('ar-MA',{dateStyle:'full',timeStyle:'short'}).format(new Date())}catch(_){return new Date().toLocaleString()}}
+    function progress(){
+      let total=6, ok=0;
+      if(F.nm.value.trim().length>1) ok++;
+      if(F.srv.value) ok++;
+      if(F.pay.value.trim().length>1) ok++;
+      if(Number(F.amt.value)>0) ok++;
+      if(F.cur.value) ok++;
+      ok++; 
+      PB.style.width=((ok/total)*100)+'%';
+    }
+    function valid(){
+      const a=F.nm.value.trim().length>1;
+      const b=F.srv.value!=='';
+      const c=F.pay.value.trim().length>1;
+      const d=Number(F.amt.value)>0;
+      const e=F.cur.value!=='';
+      const good=a&&b&&c&&d&&e;
+      BTN.disabled=!good;
+      OK.style.display=good?'block':'none';
+      ER.style.display=good?'none':'block';
+      progress();
+      if(good && F.auto.checked && !sent) send();
+      return good;
+    }
+    function build(){
+      const lines=[
+        'طلب جديد - Maroki.P1',
+        'الاسم: '+F.nm.value.trim(),
+        F.uid.value.trim()?('رقم الحساب: '+F.uid.value.trim()):null,
+        'نوع الخدمة: '+F.srv.value,
+        'الوسيلة/البنك: '+F.pay.value.trim(),
+        'المبلغ: '+fmt(F.amt.value)+' '+F.cur.value,
+        F.nt.value.trim()?('ملاحظات: '+F.nt.value.trim()):null,
+        'التاريخ: '+ts()
+      ].filter(Boolean);
+      return lines.join('\n');
+    }
+    function waUrl(){
+      const msg=encodeURIComponent(build());
+      return 'https://wa.me/'+WN+'?text='+msg;
+    }
+    function openWA(){
+      const u=waUrl();
+      const w=window.open(u,'_blank','noopener');
+      if(!w){location.href=u}
+    }
+    function send(){
+      sent=true;
+      OK.style.display='block';
+      ER.style.display='none';
+      setTimeout(openWA,220);
+      setTimeout(()=>{reset(false)},1200);
+    }
+    function reset(clearAll){
+      if(clearAll){
+        Object.values(F).forEach(x=>{if(x.tagName==='INPUT'||x.tagName==='TEXTAREA') x.value=''});
+        F.srv.value='';F.cur.value='MAD';
+      }
+      BTN.disabled=true;sent=false;progress();
+    }
+
+    ['input','change','keyup','blur'].forEach(ev=>{
+      Object.values(F).forEach(x=>x&&x.addEventListener(ev,valid));
+    });
+
+    BTN.addEventListener('click',()=>{if(valid()) send()});
+    DM.addEventListener('click',()=>{
+      F.nm.value='عميل جديد';
+      F.uid.value='1353044397';
+      F.srv.value='شحن رصيد';
+      F.pay.value='Cash Plus';
+      F.amt.value='200';
+      F.cur.value='MAD';
+      F.nt.value='تنفيذ سريع من فضلكم';
+      F.auto.checked=true;
+      sent=false;
+      valid();
+    });
+
+    progress();
+  })();
+</script>
+</body>
+</html>
